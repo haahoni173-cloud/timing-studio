@@ -1,0 +1,300 @@
+{
+  "version": 2,
+  "title": "多活頁範例",
+  "activeSheetId": "id-7b2d5960-8e4f-4dbf-aec9-3d4e4f0ac815",
+  "sheets": [
+    {
+      "id": "id-7b2d5960-8e4f-4dbf-aec9-3d4e4f0ac815",
+      "name": "啟動時序",
+      "document": {
+        "version": 1,
+        "title": "啟動時序",
+        "unit": "ns",
+        "duration": 16,
+        "step": 1,
+        "rowHeight": 40,
+        "waveformHeight": 20,
+        "signals": [
+          {
+            "id": "id-de80fe6a-b5a6-4626-a67a-fec510369b07",
+            "name": "ACK",
+            "edges": [
+              {
+                "t": 0,
+                "v": "0"
+              },
+              {
+                "t": 8,
+                "v": "1"
+              },
+              {
+                "t": 10,
+                "v": "0"
+              },
+              {
+                "t": 12,
+                "v": "1"
+              },
+              {
+                "t": 14,
+                "v": "0"
+              }
+            ],
+            "trigger": "none",
+            "style": {
+              "color": "#263744",
+              "width": 2,
+              "dash": "solid",
+              "startArrow": false,
+              "endArrow": false
+            }
+          },
+          {
+            "id": "id-10025920-c916-4ddc-a29d-f553b77af386",
+            "name": "CLK",
+            "edges": [
+              {
+                "t": 0,
+                "v": "1"
+              },
+              {
+                "t": 1.5,
+                "v": "0",
+                "trigger": "off"
+              },
+              {
+                "t": 2,
+                "v": "1"
+              },
+              {
+                "t": 3,
+                "v": "0"
+              },
+              {
+                "t": 4,
+                "v": "1"
+              },
+              {
+                "t": 5,
+                "v": "0"
+              },
+              {
+                "t": 6,
+                "v": "1"
+              },
+              {
+                "t": 7,
+                "v": "0"
+              },
+              {
+                "t": 8,
+                "v": "1"
+              },
+              {
+                "t": 9,
+                "v": "0"
+              },
+              {
+                "t": 10,
+                "v": "1"
+              },
+              {
+                "t": 11,
+                "v": "0"
+              },
+              {
+                "t": 12,
+                "v": "1"
+              },
+              {
+                "t": 13,
+                "v": "0"
+              },
+              {
+                "t": 14,
+                "v": "1"
+              },
+              {
+                "t": 15,
+                "v": "0"
+              }
+            ],
+            "trigger": "both",
+            "style": {
+              "color": "#186d67",
+              "width": 2,
+              "dash": "solid",
+              "startArrow": false,
+              "endArrow": false
+            }
+          },
+          {
+            "id": "id-46f756a7-55a8-478c-8b7d-4f228538a7f6",
+            "name": "RESET_n",
+            "edges": [
+              {
+                "t": 0,
+                "v": "0"
+              },
+              {
+                "t": 3,
+                "v": "1"
+              }
+            ],
+            "trigger": "none",
+            "style": {
+              "color": "#263744",
+              "width": 2,
+              "dash": "solid",
+              "startArrow": false,
+              "endArrow": false
+            }
+          },
+          {
+            "id": "id-e0ecef77-a1e9-42e2-8acb-89d8928dc520",
+            "name": "ENABLE",
+            "edges": [
+              {
+                "t": 0,
+                "v": "0"
+              },
+              {
+                "t": 5,
+                "v": "1"
+              },
+              {
+                "t": 13,
+                "v": "0"
+              }
+            ],
+            "trigger": "none",
+            "style": {
+              "color": "#263744",
+              "width": 2,
+              "dash": "solid",
+              "startArrow": false,
+              "endArrow": false
+            }
+          },
+          {
+            "id": "id-4decdcb0-4eb7-4427-a028-285967891145",
+            "name": "DATA_VALID",
+            "edges": [
+              {
+                "t": 0,
+                "v": "0"
+              },
+              {
+                "t": 7,
+                "v": "1"
+              },
+              {
+                "t": 9,
+                "v": "0"
+              },
+              {
+                "t": 11,
+                "v": "1"
+              },
+              {
+                "t": 13,
+                "v": "0"
+              }
+            ],
+            "trigger": "none",
+            "style": {
+              "color": "#b27423",
+              "width": 2,
+              "dash": "solid",
+              "startArrow": false,
+              "endArrow": false
+            }
+          }
+        ],
+        "annotations": [
+          {
+            "id": "id-d7519aa8-cb8a-466b-a886-80e0e37dd2ab",
+            "kind": "reference",
+            "t1": 3,
+            "t2": 3,
+            "y": 0,
+            "text": "解除重置",
+            "style": {
+              "color": "#9d6550",
+              "width": 1,
+              "dash": "dashed",
+              "startArrow": false,
+              "endArrow": false
+            }
+          },
+          {
+            "id": "id-deee56bd-777b-45ac-9ea6-984a66802ae7",
+            "kind": "dimension",
+            "t1": 5,
+            "t2": 7,
+            "y": 0,
+            "text": "t_delay",
+            "style": {
+              "color": "#186d67",
+              "width": 1.5,
+              "dash": "solid",
+              "startArrow": true,
+              "endArrow": true
+            },
+            "showLabel": true,
+            "showTime": true
+          },
+          {
+            "id": "id-752788a4-33a6-431d-958f-0acf087353f8",
+            "kind": "text",
+            "t1": 2,
+            "t2": 2,
+            "y": 0,
+            "text": "ACK note",
+            "style": {
+              "color": "#526fa0",
+              "width": 1.5,
+              "dash": "solid",
+              "startArrow": false,
+              "endArrow": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "id-6cb9f24c-ad5e-4741-804c-be14ecc9b9e1",
+      "name": "活頁2",
+      "document": {
+        "version": 1,
+        "title": "活頁2",
+        "unit": "ns",
+        "duration": 8,
+        "step": 1,
+        "rowHeight": 64,
+        "waveformHeight": 25.6,
+        "signals": [
+          {
+            "id": "id-2402601c-06a6-4ed7-af34-9c6e32405f30",
+            "name": "NEW_SIGNAL",
+            "edges": [
+              {
+                "t": 0,
+                "v": "0"
+              }
+            ],
+            "trigger": "none",
+            "style": {
+              "color": "#263744",
+              "width": 2,
+              "dash": "solid",
+              "startArrow": false,
+              "endArrow": false
+            }
+          }
+        ],
+        "annotations": []
+      }
+    }
+  ]
+}

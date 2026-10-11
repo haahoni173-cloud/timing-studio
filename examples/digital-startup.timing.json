@@ -1,0 +1,231 @@
+{
+  "version": 1,
+  "title": "數位介面啟動時序",
+  "duration": 16,
+  "unit": "ns",
+  "step": 1,
+  "rowHeight": 80,
+  "signals": [
+    {
+      "id": "id-ea970b35-abd0-417c-9a8e-37f82b1f9429",
+      "name": "CLK",
+      "edges": [
+        {
+          "t": 0,
+          "v": "1"
+        },
+        {
+          "t": 1,
+          "v": "0"
+        },
+        {
+          "t": 2,
+          "v": "1"
+        },
+        {
+          "t": 3,
+          "v": "0"
+        },
+        {
+          "t": 4,
+          "v": "1"
+        },
+        {
+          "t": 5,
+          "v": "0"
+        },
+        {
+          "t": 6,
+          "v": "1"
+        },
+        {
+          "t": 7,
+          "v": "0"
+        },
+        {
+          "t": 8,
+          "v": "1"
+        },
+        {
+          "t": 9,
+          "v": "0"
+        },
+        {
+          "t": 10,
+          "v": "1"
+        },
+        {
+          "t": 11,
+          "v": "0"
+        },
+        {
+          "t": 12,
+          "v": "1"
+        },
+        {
+          "t": 13,
+          "v": "0"
+        },
+        {
+          "t": 14,
+          "v": "1"
+        },
+        {
+          "t": 15,
+          "v": "0"
+        }
+      ],
+      "style": {
+        "color": "#186d67",
+        "width": 2,
+        "dash": "solid",
+        "startArrow": false,
+        "endArrow": false
+      }
+    },
+    {
+      "id": "id-1c796e5b-d5b9-4931-b672-6035f2a697ef",
+      "name": "RESET_n",
+      "edges": [
+        {
+          "t": 0,
+          "v": "0"
+        },
+        {
+          "t": 3,
+          "v": "1"
+        }
+      ],
+      "style": {
+        "color": "#263744",
+        "width": 2,
+        "dash": "solid",
+        "startArrow": false,
+        "endArrow": false
+      }
+    },
+    {
+      "id": "id-28c15e02-7ffd-4185-ae03-351254a59967",
+      "name": "ENABLE",
+      "edges": [
+        {
+          "t": 0,
+          "v": "0"
+        },
+        {
+          "t": 5,
+          "v": "1"
+        },
+        {
+          "t": 13,
+          "v": "0"
+        }
+      ],
+      "style": {
+        "color": "#263744",
+        "width": 2,
+        "dash": "solid",
+        "startArrow": false,
+        "endArrow": false
+      }
+    },
+    {
+      "id": "id-83919895-51b5-4f9f-94b4-a8d3844ef6a5",
+      "name": "DATA_VALID",
+      "edges": [
+        {
+          "t": 0,
+          "v": "0"
+        },
+        {
+          "t": 7,
+          "v": "1"
+        },
+        {
+          "t": 9,
+          "v": "0"
+        },
+        {
+          "t": 11,
+          "v": "1"
+        },
+        {
+          "t": 13,
+          "v": "0"
+        }
+      ],
+      "style": {
+        "color": "#b27423",
+        "width": 2,
+        "dash": "solid",
+        "startArrow": false,
+        "endArrow": false
+      }
+    },
+    {
+      "id": "id-07566237-cb26-4ac5-a309-29f3aa232e81",
+      "name": "ACK",
+      "edges": [
+        {
+          "t": 0,
+          "v": "0"
+        },
+        {
+          "t": 8,
+          "v": "1"
+        },
+        {
+          "t": 10,
+          "v": "0"
+        },
+        {
+          "t": 12,
+          "v": "1"
+        },
+        {
+          "t": 14,
+          "v": "0"
+        }
+      ],
+      "style": {
+        "color": "#263744",
+        "width": 2,
+        "dash": "solid",
+        "startArrow": false,
+        "endArrow": false
+      }
+    }
+  ],
+  "annotations": [
+    {
+      "id": "id-72eb7eb4-fc62-42c3-9c0c-d8e0cf266a29",
+      "kind": "reference",
+      "t1": 3,
+      "t2": 3,
+      "y": 0,
+      "text": "解除重置",
+      "style": {
+        "color": "#9d6550",
+        "width": 1,
+        "dash": "dashed",
+        "startArrow": false,
+        "endArrow": false
+      }
+    },
+    {
+      "id": "id-ead24684-1085-4fe5-9448-2f8f70bc0005",
+      "kind": "dimension",
+      "t1": 5,
+      "t2": 7,
+      "y": 0,
+      "text": "t_delay",
+      "style": {
+        "color": "#186d67",
+        "width": 1.5,
+        "dash": "solid",
+        "startArrow": true,
+        "endArrow": true
+      }
+    }
+  ]
+}

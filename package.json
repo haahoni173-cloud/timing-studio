@@ -1,0 +1,15 @@
+{
+  "name": "timing-studio",
+  "version": "3.0.0",
+  "private": true,
+  "description": "A local-first digital timing diagram editor with PowerPoint image export.",
+  "scripts": {
+    "start": "node scripts/serve.cjs",
+    "dev": "node scripts/serve.cjs",
+    "test": "node --test tests/model.test.cjs",
+    "test:browser": "node tests/browser.cjs",
+    "test:interface": "node tests/interface.cjs",
+    "check": "node --check public/app.js && node --check public/model.js && node --check public/render.js && node --check public/i18n.js"
+  },
+  "engines": { "node": ">=20" }
+}

@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="數位 Timing Diagram 編輯器：波形對齊、時脈產生與 PowerPoint 圖片輸出。">
+  <title>Timing Studio · 時序圖編輯器</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./model.js" defer></script>
+  <script src="./render.js" defer></script>
+  <script src="./i18n.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="app-header">
+    <a class="brand" href="./index.html" aria-label="Timing Studio 首頁"><svg width="26" height="26" viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" rx="8" fill="#186d67"/><path d="M5 20h6V10h8v10h6" fill="none" stroke="white" stroke-width="2"/></svg><span>Timing <strong>Studio</strong></span></a>
+    <input id="document-title" aria-label="整份圖檔名稱" maxlength="120" value="數位介面啟動時序"><span id="save-status" class="save-status">已儲存</span>
+    <nav aria-label="主選單" class="menubar">
+      <details class="app-menu" id="file-menu"><summary>File</summary><div class="menu-popup">
+        <button id="new-project">新增圖檔</button><button id="open-project">Import · 匯入</button><button id="save-project" data-command="save">儲存圖檔 <kbd>Ctrl+S</kbd></button><hr><button id="open-export">Export · 匯出</button>
+      </div></details>
+      <details class="app-menu" id="edit-menu"><summary>Edit</summary><div class="menu-popup">
+        <button data-command="undo">復原 <kbd>Ctrl+Z</kbd></button><button data-command="redo">重做 <kbd>Ctrl+Shift+Z</kbd></button><hr>
+        <button data-command="copy">複製訊號 <kbd>Ctrl+C</kbd></button><button data-command="paste">貼上訊號 <kbd>Ctrl+V</kbd></button><button data-command="delete">刪除選取 <kbd>Delete</kbd></button><hr>
+        <button data-tool="select" data-command="select">選取 <kbd>V</kbd></button><button data-tool="toggle" data-command="toggle">切換電位 <kbd>B</kbd></button><button data-tool="1" data-command="high">高電位 H <kbd>H</kbd></button><button data-tool="0" data-command="low">低電位 L <kbd>L</kbd></button><button data-tool="X" data-command="unknown">未知 X <kbd>X</kbd></button><button data-tool="Z" data-command="highz">高阻抗 Z <kbd>Z</kbd></button>
+      </div></details>
+      <details class="app-menu" id="setting-menu"><summary>Setting</summary><div class="menu-popup"><button id="open-diagram">Diagram</button><button id="open-shortcuts">快捷鍵</button><button id="open-language">語言</button></div></details>
+    </nav>
+    <nav aria-label="快速操作" class="header-actions"><button id="help-button" class="icon-button" aria-label="操作說明">?</button><button id="toggle-properties" aria-label="收合屬性" title="顯示／隱藏屬性 (Q)">⇒</button><button id="copy-image" class="primary">複製圖片至 PPT</button></nav>
+  </header>
+  <div class="toolbar top-toolbar" role="toolbar" aria-label="繪圖工具">
+        <span id="active-tool" class="active-tool">選取</span>
+        <div class="tool-group"><button data-tool="reference" data-command="reference" class="tool icon-tool" title="參考線" aria-label="參考線">┊</button><button data-tool="dimension" data-command="dimension" class="tool icon-tool" title="時間箭頭" aria-label="時間箭頭">↔</button><button data-tool="text" data-command="text" class="tool icon-tool" title="文字" aria-label="文字">T</button></div>
+        <div class="tool-group history"><button id="undo" data-command="undo" title="復原" aria-label="復原">↶</button><button id="redo" data-command="redo" title="重做" aria-label="重做">↷</button></div>
+      <div class="viewbar"><label title="吸附"><input id="snap" type="checkbox" checked> ⌖</label><label title="格線"><input id="show-grid" type="checkbox" checked> ▦</label><button id="zoom-out" aria-label="縮小">−</button><span id="zoom-label">100%</span><button id="zoom-in" aria-label="放大">＋</button><button id="fit" data-command="fit" title="符合畫布" aria-label="符合畫布">⛶</button></div>
+  </div>
+  <main class="workspace" id="workspace">
+    <aside class="signals-panel" aria-label="訊號列表">
+      <div class="panel-heading"><h2>訊號</h2><span id="signal-count" class="badge">5</span></div>
+      <div class="signal-actions"><button id="add-signal" class="add-button">＋ 新增訊號</button><button id="add-clock" title="新增時脈" aria-label="新增時脈">◷</button></div>
+      <div id="signal-list" class="signal-list"></div>
+      <div class="panel-bottom"><button id="load-example">載入範例到此活頁</button><p>拖動 ⋮⋮ 排序訊號<br>點選訊號後按 Q 開啟屬性</p></div>
+    </aside>
+    <div id="left-resizer" class="panel-resizer" role="separator" aria-label="調整訊號欄寬度" aria-orientation="vertical" tabindex="0"></div>
+    <section class="editor" aria-label="時序圖畫布">
+      <div id="canvas-scroll" class="canvas-scroll"><div id="canvas-holder" class="canvas-holder"><svg id="diagram" xmlns="http://www.w3.org/2000/svg" aria-label="可編輯的數位時序圖" role="img" tabindex="0"></svg></div></div>
+      <div class="canvas-footer"><span id="tool-hint">拖曳切換邊緣調整時間；Shift 點選可多選。</span><span id="cursor-time">— ns</span></div>
+      <div class="sheetbar"><div id="sheet-tabs" class="sheet-tabs" role="tablist" aria-label="活頁"></div><button id="add-sheet" title="新增活頁" aria-label="新增活頁">＋</button><button id="manage-sheets" title="活頁數、命名、複製與刪除" aria-label="管理活頁">活頁設定</button></div>
+    </section>
+    <div id="right-resizer" class="panel-resizer" role="separator" aria-label="調整屬性欄寬度" aria-orientation="vertical" tabindex="0"></div>
+    <aside class="properties-panel" id="properties-panel" aria-label="屬性設定">
+      <div class="panel-heading"><h2>屬性 <small id="properties-key">Q</small></h2><button id="collapse-properties" title="收合屬性" aria-label="收合屬性">⇒</button></div>
+      <div id="inspector"></div>
+    </aside>
+  </main>
+  <footer class="statusbar"><span><span class="status-symbol">◇</span> <span id="selection-status">就緒</span></span><span id="document-info">5 個訊號 · 16 ns</span><span>Timing Studio · v3.0</span></footer>
+  <input id="file-input" type="file" accept=".json,.timing.json,application/json" hidden>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="diagram-dialog"><form id="diagram-form"><div class="dialog-heading"><h2>Diagram · 圖形配置</h2><button type="button" data-close aria-label="關閉">×</button></div><p>設定套用所有活頁；已鎖定的個別粗細與列高保留。</p>
+    <div class="field-pair"><label>時間長度<input id="duration" type="number" min="1" max="256" step="any" required></label><label>單位<input id="time-unit" maxlength="12" required></label></div>
+    <label>格線間隔<select id="grid-step"><option>0.1</option><option>0.25</option><option>0.5</option><option>1</option><option>2</option><option>4</option></select></label>
+    <div class="field-pair"><label>訊號列高 (px)<input id="row-height" type="number" min="24" max="128" step="1" required></label><label>波形高度 (px)<input id="wave-height" type="number" min="8" max="64" step="1" required></label></div><input id="row-height-slider" class="row-slider" type="range" min="24" max="128" step="1" aria-label="調整訊號列高"><div class="density-presets"><button type="button" data-density="28">極緊湊</button><button type="button" data-density="40">緊湊</button><button type="button" data-density="64">標準</button></div>
+    <label>全域波形粗細 (px)<input id="global-width" type="number" min="0.5" max="8" step="0.5" required></label><p id="diagram-error" class="error" role="alert"></p><div class="dialog-actions"><button type="button" data-close>取消</button><button type="submit" class="primary">套用所有活頁</button></div>
+  </form></dialog>
+  <dialog id="import-dialog"><form id="import-form"><div class="dialog-heading"><h2>Import · 匯入</h2><button type="button" data-close aria-label="關閉">×</button></div><label>匯入方式<select id="import-mode"><option value="replace">取代整份圖檔</option><option value="append">加入為新活頁</option></select></label><label>圖檔<input id="import-file" type="file" accept=".json,.timing.json,application/json" required></label><p>支援 .timing.json，包含舊版單頁圖檔。圖片請使用匯出功能。</p><p id="import-error" class="error" role="alert"></p><div class="dialog-actions"><button type="button" data-close>取消</button><button type="submit" class="primary">匯入</button></div></form></dialog>
+  <dialog id="export-dialog"><div class="dialog-heading"><h2>Export · 匯出</h2><button data-close aria-label="關閉">×</button></div><label>格式<select id="export-format"><option value="png">PNG</option><option value="svg">SVG</option><option value="project">TIMING.JSON</option></select></label><p id="export-scope">PNG／SVG／剪貼簿輸出目前活頁；圖檔包含所有活頁。</p><div id="image-options"><div class="field-pair"><label>背景<select id="export-background"><option value="white">白色</option><option value="transparent">透明</option></select></label><label>解析度<select id="export-scale"><option value="2">2×</option><option value="3" selected>3×</option><option value="4">4×</option></select></label></div><label class="check-field"><input id="export-grid" type="checkbox"> 圖片保留格線</label></div><p class="fine-print">中文字：標楷體 · 英文字：Times New Roman</p><div class="dialog-actions"><button id="export-copy">複製圖片</button><button id="export-download" class="primary">下載</button></div><button id="download-png" hidden>PNG</button><button id="download-svg" hidden>SVG</button></dialog>
+  <dialog id="shortcuts-dialog"><form id="shortcuts-form"><div class="dialog-heading"><h2>快捷鍵</h2><button type="button" data-close aria-label="關閉">×</button></div><p>點選欄位後按下按鍵組合。文字輸入時保留一般編輯操作。</p><div id="shortcut-list" class="shortcut-list"></div><p id="shortcut-error" class="error" role="alert"></p><div class="dialog-actions"><button type="button" id="reset-shortcuts">恢復預設</button><button type="button" data-close>取消</button><button type="submit" class="primary">套用</button></div></form></dialog>
+  <dialog id="language-dialog"><form id="language-form"><div class="dialog-heading"><h2>語言</h2><button type="button" data-close aria-label="關閉">×</button></div><label>介面語言<select id="language"><option value="zh">繁體中文</option><option value="en">English</option></select></label><div class="dialog-actions"><button type="button" data-close>取消</button><button type="submit" class="primary">套用</button></div></form></dialog>
+  <dialog id="sheets-dialog"><form id="sheets-form"><div class="dialog-heading"><h2>活頁設定</h2><button type="button" data-close aria-label="關閉">×</button></div><label>目前活頁名稱<input id="sheet-name" maxlength="50" required></label><label>活頁數量 (1–32)<input id="sheet-count" type="number" min="1" max="32" step="1" required></label><p>新增空白活頁會接在末端；減少數量會刪除末端活頁，可用復原恢復。</p><div class="field-pair"><button id="duplicate-sheet" type="button">複製目前活頁</button><button id="delete-sheet" type="button" class="danger">刪除目前活頁</button></div><div class="dialog-actions"><button type="button" data-close>取消</button><button type="submit" class="primary">套用</button></div></form></dialog>
+  <dialog id="clock-dialog"><form id="clock-form"><div class="dialog-heading"><h2>產生時脈</h2><button type="button" data-close aria-label="關閉">×</button></div><p>時脈會自動延伸至時間軸末端。</p><label>訊號名稱<input name="name" maxlength="80" value="CLK" required></label><div class="field-pair"><label>週期<input name="period" type="number" value="2" step="any" min="0.1" max="512" required></label><label>占空比 (%)<input name="duty" type="number" value="50" step="any" min="0.1" max="99.9" required></label></div><div class="field-pair"><label>起始時間<input name="phase" type="number" value="0" step="any" min="0" required></label><label>閒置電位<select name="initial"><option value="0">低電位</option><option value="1">高電位</option></select></label></div><p id="clock-error" class="error" role="alert"></p><div class="dialog-actions"><button type="button" data-close>取消</button><button type="submit" class="primary">產生時脈</button></div></form></dialog>
+  <dialog id="help-dialog"><div class="dialog-heading"><h2>繪製 Timing Diagram</h2><button data-close aria-label="關閉">×</button></div><ol class="help-list"><li><strong>新增訊號或時脈</strong><p>左側新增一般訊號；時脈可指定週期、占空比與起始時間。</p></li><li><strong>編輯高低電位</strong><p>「切換」會翻轉點選格子的電位；H、L、X、Z 可連續拖曳塗畫多個格子。右側也可輸入 00111000 這類波形序列。</p></li><li><strong>拖曳與對齊</strong><p>使用「選取」拖曳切換邊緣。Shift 點選邊緣可多選，一起拖曳或用方向鍵平移。右側可把不同訊號的選取邊緣對齊到指定時間。Alt 拖曳暫時關閉吸附。</p></li><li><strong>加入報告標註</strong><p>參考線：點一下，拖動頂端圓點或標籤調整位置。時間箭頭：拖出範圍。文字：點選位置後，在右側編輯文字。選取標註可拖曳位置；箭頭兩端可分別拖曳。</p></li><li><strong>複製到 PowerPoint</strong><p>按「複製圖片至 PPT」，再到 PowerPoint 按 Ctrl+V。也可下載 PNG 或 SVG。圖片不含編輯控制點。</p></li></ol><p id="shortcut-help" class="fine-print"></p></dialog>
+  <dialog id="copy-dialog"><div class="dialog-heading"><h2>圖片已準備好</h2><button data-close aria-label="關閉">×</button></div><p id="copy-message">目前瀏覽器未允許複製圖片。可以先下載 PNG，再將圖片拖進 PowerPoint。</p><div class="dialog-actions"><button id="fallback-png" class="primary">下載 PNG</button></div></dialog>
+</body>
+</html>
